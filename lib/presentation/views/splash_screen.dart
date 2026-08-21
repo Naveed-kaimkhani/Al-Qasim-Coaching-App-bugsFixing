@@ -6,7 +6,7 @@ import 'package:qr_code_scanner/components/login_background_elements.dart';
 import 'package:qr_code_scanner/core/constants/app_colors.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/auth_controller.dart';
 import 'package:qr_code_scanner/presentation/views/home/student_dashboard.dart';
-import 'package:qr_code_scanner/presentation/views/login_screen.dart';
+import 'package:qr_code_scanner/presentation/views/public_academy_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   } else {
 
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => const PublicAcademyScreen());
 
   }
 }

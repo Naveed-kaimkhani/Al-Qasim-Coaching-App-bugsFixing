@@ -1434,11 +1434,11 @@ class AttendanceRepository {
     ]);
 
     final classDocs =
-        results[0] as List<DocumentSnapshot<Map<String, dynamic>>>;
+        results[0];
     final studentDocs1 =
-        results[1] as List<DocumentSnapshot<Map<String, dynamic>>>;
+        results[1];
     final studentDocs2 =
-        results[2] as List<DocumentSnapshot<Map<String, dynamic>>>;
+        results[2];
 
     final result = <String, String>{};
 

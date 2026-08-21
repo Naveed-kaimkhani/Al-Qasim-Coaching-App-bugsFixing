@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import '../../domain/repositories/qr_repository.dart';
 import '../models/qr_scan_model.dart';

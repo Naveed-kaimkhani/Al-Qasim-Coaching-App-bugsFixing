@@ -9,7 +9,7 @@ import 'package:qr_code_scanner/data/repositories/auth_repository.dart';
 import 'package:qr_code_scanner/data/services/local_storage_service.dart';
 
 import 'package:qr_code_scanner/presentation/views/home/student_dashboard.dart';
-import 'package:qr_code_scanner/presentation/views/login_screen.dart';
+import 'package:qr_code_scanner/presentation/views/public_academy_screen.dart';
 
 class AuthController extends GetxController {
 
@@ -50,7 +50,7 @@ final passwordError = RxnString();
 
         isLoggedIn.value = false;
 
-        Get.offAll(() => LoginScreen());
+        Get.offAll(() => const PublicAcademyScreen());
 
         return;
       }
@@ -64,7 +64,7 @@ final passwordError = RxnString();
 
         await clearSession();
 
-        Get.offAll(() => LoginScreen());
+        Get.offAll(() => const PublicAcademyScreen());
 
         return;
       }
@@ -80,7 +80,7 @@ final passwordError = RxnString();
 
         await clearSession();
 
-        Get.offAll(() => LoginScreen());
+        Get.offAll(() => const PublicAcademyScreen());
 
         return;
       }
@@ -91,7 +91,7 @@ final passwordError = RxnString();
 
       await clearSession();
 
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => const PublicAcademyScreen());
     }
   }
 
@@ -286,7 +286,7 @@ Future<void> login() async {
 
     await clearSession();
 
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => const PublicAcademyScreen());
   }
 
   /// CLEAR SESSION

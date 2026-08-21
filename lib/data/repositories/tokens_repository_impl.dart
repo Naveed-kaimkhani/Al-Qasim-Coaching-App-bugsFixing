@@ -14,7 +14,7 @@ class PendingTokensRepositoryImpl implements PendingTokensRepository {
   Future<List<PendingTokenModel>> fetchPendingTokens() async {
     try {
       return await _service.fetchPendingTokens();
-    } catch (e, stackTrace) {
+    } catch (e) {
       rethrow;
     }
   }
