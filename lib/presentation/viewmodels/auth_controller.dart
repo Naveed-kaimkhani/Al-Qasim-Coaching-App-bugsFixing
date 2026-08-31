@@ -9,6 +9,7 @@ import 'package:qr_code_scanner/data/repositories/auth_repository.dart';
 import 'package:qr_code_scanner/data/services/local_storage_service.dart';
 
 import 'package:qr_code_scanner/presentation/views/home/student_dashboard.dart';
+import 'package:qr_code_scanner/presentation/views/login_screen.dart';
 import 'package:qr_code_scanner/presentation/views/public_academy_screen.dart';
 
 class AuthController extends GetxController {
@@ -286,7 +287,7 @@ Future<void> login() async {
 
     await clearSession();
 
-    Get.offAll(() => const PublicAcademyScreen());
+    Get.offAll(() => LoginScreen());
   }
 
   /// CLEAR SESSION

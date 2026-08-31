@@ -21,6 +21,7 @@ import 'package:qr_code_scanner/presentation/views/home/widget/quick_access_grid
 import 'package:qr_code_scanner/presentation/views/notifications/notifications_screen.dart';
 import 'package:qr_code_scanner/presentation/views/test_resutls/test_results_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:upgrader/upgrader.dart';
 
 // Enhanced Student Dashboard
 class StudentDashboard extends StatelessWidget {
@@ -44,271 +45,166 @@ class StudentDashboard extends StatelessWidget {
       greeting.value = 'Good Evening';
     }
 
-    return Scaffold(
-
-//  floatingActionButton: FloatingActionButton.extended(
-//     onPressed: () {
-//       authController.logout();
-//     },
-//     backgroundColor: FeeColors.overdueColor,
-//     icon: Icon(
-//       LucideIcons.logOut,
-//       color: Colors.white,
-//       size: 20.sp,
-//     ),
-//     label: Text(
-//       'Logout',
-//       style: GoogleFonts.poppins(
-//         color: Colors.white,
-//         fontWeight: FontWeight.w600,
-//       ),
-//     ),
-//   ).animate().scale(delay: 300.ms).fadeIn(),
-
-
-
-      backgroundColor: AttendanceColors.warmWhite,
-      body: Stack(
-        children: [
-          const BackgroundElements(),
-
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  
-                  // Header Section with Animation
-Obx(() {
-  final student = studentController.student.value;
-
-  return Skeletonizer(
-    enabled: studentController.isLoading.value,
-
-    child: AnimatedHeaderSection(
-      // onLogout: () => authController.logout(),
-onLogout: (){
-authController.logout();
-},
-      greeting: greeting,
-
-      userName: studentController.isLoading.value
-          ? 'Class 00'
-          : (student?.name ?? 'Student'),
-
-      classInfo: studentController.isLoading.value
-          ? 'Loading..'
-          : (student != null
-              ? '${student.rollNo}, Al-Qasim Academy'
-              : 'Al-Qasim '),
-
-      getGreetingIcon: _getGreetingIcon, rollNumber: student?.rollNo ?? '',
-    ),
-  );
-}),
-             
-                  SizedBox(height: 32.h),
-            
-
-Obx(() {
-  final attendance =
-      dashboardStatsController.thisWeekAttendanceValue.value;
-
-  final attendanceChange =
-      dashboardStatsController.attendanceChangeValue.value;
-
-  return Skeletonizer(
-    enabled: dashboardStatsController.isLoading.value,
-
-    child: AnimatedStatsSection(
-      title: 'Your Performance',
-      filterLabel: 'This Week',
-
-      stats: [
-         StatItem(
-        title: 'Attendance',
-        value: '${attendance.toStringAsFixed(0)}%',
-        change: attendanceChange,
-        icon: LucideIcons.calendarCheck,
-        color: AttendanceColors.presentColor,
-        delay: 600.ms,
+    return UpgradeAlert(
+      child: Scaffold(
+      
+      
+        backgroundColor: AttendanceColors.warmWhite,
+        body: Stack(
+          children: [
+            const BackgroundElements(),
+      
+            SafeArea(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+      
+                    
+                    // Header Section with Animation
+      Obx(() {
+        final student = studentController.student.value;
+      
+        return Skeletonizer(
+      enabled: studentController.isLoading.value,
+      
+      child: AnimatedHeaderSection(
+        // onLogout: () => authController.logout(),
+      onLogout: (){
+      authController.logout();
+      },
+        greeting: greeting,
+      
+        userName: studentController.isLoading.value
+            ? 'Class 00'
+            : (student?.name ?? 'Student'),
+      
+        classInfo: studentController.isLoading.value
+            ? 'Loading..'
+            : (student != null
+                ? '${student.rollNo}, Al-Qasim Academy'
+                : 'Al-Qasim '),
+      
+        getGreetingIcon: _getGreetingIcon, rollNumber: student?.rollNo ?? '',
       ),
-      StatItem(
-        title: 'Avg Test Score',
-        value: '${dashboardStatsController.thisWeekAvgScore.toStringAsFixed(0)}%',
-        change: dashboardStatsController.scoreChange,
-        icon: LucideIcons.clipboardCheck,
-        color: AttendanceColors.primaryOrange,
-        delay: 700.ms,
-      ),
-
+        );
+      }),
+               
+                    SizedBox(height: 32.h),
+              
+      
+      Obx(() {
+        final attendance =
+        dashboardStatsController.thisWeekAttendanceValue.value;
+      
+        final attendanceChange =
+        dashboardStatsController.attendanceChangeValue.value;
+      
+        return Skeletonizer(
+      enabled: dashboardStatsController.isLoading.value,
+      
+      child: AnimatedStatsSection(
+        title: 'Your Performance',
+        filterLabel: 'This Week',
+      
+        stats: [
+           StatItem(
+          title: 'Attendance',
+          value: '${attendance.toStringAsFixed(0)}%',
+          change: attendanceChange,
+          icon: LucideIcons.calendarCheck,
+          color: AttendanceColors.presentColor,
+          delay: 600.ms,
+        ),
         StatItem(
-        title: 'Fee Status',
-        value: dashboardStatsController.currentFeeStatus,
-        change: dashboardStatsController.feeChangeText,
-        icon: LucideIcons.wallet,
-        color: AttendanceColors.holidayColor,
-        delay: 800.ms,
+          title: 'Avg Test Score',
+          value: '${dashboardStatsController.thisWeekAvgScore.toStringAsFixed(0)}%',
+          change: dashboardStatsController.scoreChange,
+          icon: LucideIcons.clipboardCheck,
+          color: AttendanceColors.primaryOrange,
+          delay: 700.ms,
+        ),
+      
+          StatItem(
+          title: 'Fee Status',
+          value: dashboardStatsController.currentFeeStatus,
+          change: dashboardStatsController.feeChangeText,
+          icon: LucideIcons.wallet,
+          color: AttendanceColors.holidayColor,
+          delay: 800.ms,
+        ),
+      StatItem(
+        title: 'Rank',
+        value: dashboardStatsController.rankChangeTextValue.value,
+        change: 'This Week',
+        icon: LucideIcons.award,
+        color: AttendanceColors.darkOrange,
+        delay: 900.ms,
       ),
-    StatItem(
-  title: 'Rank',
-  value: dashboardStatsController.rankChangeTextValue.value,
-  change: 'This Week',
-  icon: LucideIcons.award,
-  color: AttendanceColors.darkOrange,
-  delay: 900.ms,
-),
-      ],
-    ),
-  );
-}),
-
-
-// Obx(() {
-//     final attendance = dashboardStatsController.thisWeekAttendanceValue.value;
-//   final attendanceChange = dashboardStatsController.attendanceChangeValue.value;
-//   if (dashboardStatsController.isLoading.value) {
-//     return const Center(
-//       child: CircularProgressIndicator(),
-//     );
-//   }
-
-//   return AnimatedStatsSection(
-//     title: 'Your Performance',
-//     filterLabel: 'This Week',
-//     stats: [
-//       // StatItem(
-//       //   title: 'Attendance',
-//       //   value: '${dashboardStatsController.thisWeekAttendance.toStringAsFixed(0)}%',
-//       //   change: dashboardStatsController.attendanceChange,
-//       //   icon: LucideIcons.calendarCheck,
-//       //   color: AttendanceColors.presentColor,
-//       //   delay: 600.ms,
-//       // ),
-
-//       StatItem(
-//         title: 'Attendance',
-//         value: '${attendance.toStringAsFixed(0)}%',
-//         change: attendanceChange,
-//         icon: LucideIcons.calendarCheck,
-//         color: AttendanceColors.presentColor,
-//         delay: 600.ms,
-//       ),
-//       StatItem(
-//         title: 'Avg Test Score',
-//         value: '${dashboardStatsController.thisWeekAvgScore.toStringAsFixed(0)}%',
-//         change: dashboardStatsController.scoreChange,
-//         icon: LucideIcons.clipboardCheck,
-//         color: AttendanceColors.primaryOrange,
-//         delay: 700.ms,
-//       ),
-// //       StatItem(
-// //   title: 'Avg Test Score',
-// //   value:
-// //       '${dashboardStatsController.thisWeekAvgScoreValue.toStringAsFixed(0)}%',
-// //   change: dashboardStatsController.scoreChangeValue,
-// //   icon: LucideIcons.clipboardCheck,
-// //   color: AttendanceColors.primaryOrange,
-// //   delay: 700.ms,
-// // ),
-
-// // StatItem(
-// //   title: 'Avg Test Score',
-// //   value:
-// //       '${dashboardStatsController.thisWeekAvgScoreValue.toStringAsFixed(0)}%',
-// //   change:
-// //       dashboardStatsController.scoreChangeValue.value,
-// //   icon: LucideIcons.clipboardCheck,
-// //   color: AttendanceColors.primaryOrange,
-// //   delay: 700.ms,
-// // ),
-
-//       StatItem(
-//         title: 'Fee Status',
-//         value: dashboardStatsController.currentFeeStatus,
-//         change: dashboardStatsController.feeChangeText,
-//         icon: LucideIcons.wallet,
-//         color: AttendanceColors.holidayColor,
-//         delay: 800.ms,
-//       ),
-//     StatItem(
-//   title: 'Rank',
-//   value: dashboardStatsController.rankChangeTextValue.value,
-//   change: 'This Week',
-//   icon: LucideIcons.award,
-//   color: AttendanceColors.darkOrange,
-//   delay: 900.ms,
-// ),
-// //       StatItem(
-// //   title: 'Rank',
-// //   value: dashboardStatsController.rankChangeTextValue.value,
-// //   change: 'This Week',
-// //   icon: LucideIcons.award,
-// //   color: AttendanceColors.darkOrange,
-// //   delay: 900.ms,
-// // ),
-//     ],
-//   );
-// }),
-
-                  SizedBox(height: 32.h),
-
-                  // Quick Access Grid
-                  QuickAccessGrid(
-                    title: 'Quick Access',
-                    crossAxisCount: 2,
-                    actions: [
-                      QuickActionItem(
-                        icon: LucideIcons.calendarCheck,
-                        title: 'Attendance',
-                        subtitle: 'Track your presence',
-                        color: AttendanceColors.presentColor,
-                        onTap: () => Get.to(() => MonthlyAttendanceScreen()),
-                      ),
-                      QuickActionItem(
-                        icon: LucideIcons.wallet,
-                        title: 'Fee Status',
-                        subtitle: 'Payment & dues',
-                        color: AttendanceColors.holidayColor,
-                        onTap: () => Get.to(() =>
-                        
-                        //  MonthlyFeeScreen()
-                         FeeHomeScreen()
-                         ),
-                      ),
-                      QuickActionItem(
-                        icon: LucideIcons.clipboardCheck,
-                        title: 'Test Results',
-                        subtitle: 'Scores & rankings',
-                        color: AttendanceColors.primaryOrange,
-                        onTap: () => Get.to(() => TestResultsScreen()),
-                      ),
-                     
-                      QuickActionItem(
-                        icon: LucideIcons.bell,
-                        title: 'Notifications',
-                        subtitle: 'Updates & alerts',
-                        color: AttendanceColors.pendingColor,
-                                                onTap: () => Get.to(() => NotificationsScreen()),
-
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 32.h),
-
-                  // Upcoming Tests
-                  // _buildUpcomingTests(),
-
-                  // SizedBox(height: 30.h),
-                ],
+        ],
+      ),
+        );
+      }),
+      
+      
+                    SizedBox(height: 32.h),
+      
+                    // Quick Access Grid
+                    QuickAccessGrid(
+                      title: 'Quick Access',
+                      crossAxisCount: 2,
+                      actions: [
+                        QuickActionItem(
+                          icon: LucideIcons.calendarCheck,
+                          title: 'Attendance',
+                          subtitle: 'Track your presence',
+                          color: AttendanceColors.presentColor,
+                          onTap: () => Get.to(() => MonthlyAttendanceScreen()),
+                        ),
+                        QuickActionItem(
+                          icon: LucideIcons.wallet,
+                          title: 'Fee Status',
+                          subtitle: 'Payment & dues',
+                          color: AttendanceColors.holidayColor,
+                          onTap: () => Get.to(() =>
+                          
+                          //  MonthlyFeeScreen()
+                           FeeHomeScreen()
+                           ),
+                        ),
+                        QuickActionItem(
+                          icon: LucideIcons.clipboardCheck,
+                          title: 'Test Results',
+                          subtitle: 'Scores & rankings',
+                          color: AttendanceColors.primaryOrange,
+                          onTap: () => Get.to(() => TestResultsScreen()),
+                        ),
+                       
+                        QuickActionItem(
+                          icon: LucideIcons.bell,
+                          title: 'Notifications',
+                          subtitle: 'Updates & alerts',
+                          color: AttendanceColors.pendingColor,
+                                                  onTap: () => Get.to(() => NotificationsScreen()),
+      
+                        ),
+                      ],
+                    ),
+      
+                    SizedBox(height: 32.h),
+      
+                    // Upcoming Tests
+                    // _buildUpcomingTests(),
+      
+                    // SizedBox(height: 30.h),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

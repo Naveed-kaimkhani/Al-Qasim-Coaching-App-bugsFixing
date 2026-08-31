@@ -8,12 +8,26 @@ import 'package:qr_code_scanner/components/test_constants.dart';
 import 'package:qr_code_scanner/core/constants/attendance_Colors.dart';
 import 'package:qr_code_scanner/data/models/datafetch/test_result_model.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/DataFetchController/test_result_controller.dart';
-import 'package:qr_code_scanner/presentation/views/splash_screen.dart';
 import 'package:qr_code_scanner/presentation/views/test_resutls/monthly_test_results_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class TestResultsScreen extends StatelessWidget {
+class TestResultsScreen extends StatefulWidget {
+  const TestResultsScreen({super.key});
+
+  @override
+  State<TestResultsScreen> createState() => _TestResultsScreenState();
+}
+
+class _TestResultsScreenState extends State<TestResultsScreen> {
   final TestResultController testResultController = Get.put(TestResultController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) testResultController.refreshResults();
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -33,6 +47,7 @@ class TestResultsScreen extends StatelessWidget {
                   // Header
                   _buildHeaderSection(context),
                   SizedBox(height: 32.h),
+                  _buildResultStatus(),
                   
                   // Overall Performance Card
                   _buildOverallPerformanceCard(),
@@ -68,6 +83,33 @@ class TestResultsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildResultStatus() {
+    return Obx(() {
+      final message = testResultController.errorMessage.value;
+      if (message == null) return const SizedBox.shrink();
+
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 24.h),
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: Colors.red.withOpacity(0.08),
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(message),
+            TextButton(
+              onPressed: testResultController.refreshResults,
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    });
   }
   
   Widget _buildBackgroundElements() {
@@ -874,7 +916,8 @@ Widget _buildLatestTestCard(context) {
 
     final item = testResultController.latestResult;
 
-    if (!testResultController.isLoading.value && item == null) {
+    if (!testResultController.isLoading.value &&
+        testResultController.errorMessage.value == null && item == null) {
       return const Center(
         child: Text('No test results found'),
       );
@@ -1431,6 +1474,7 @@ Widget _buildRecentTests(context) {
           SizedBox(height: 16.h),
 
           if (!testResultController.isLoading.value &&
+              testResultController.errorMessage.value == null &&
               recentResults.isEmpty)
             const Text('No test results found'),
 

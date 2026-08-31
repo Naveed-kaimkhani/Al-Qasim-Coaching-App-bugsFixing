@@ -8,8 +8,6 @@ import 'package:qr_code_scanner/components/test_constants.dart';
 import 'package:qr_code_scanner/core/constants/attendance_Colors.dart';
 import 'package:qr_code_scanner/data/models/datafetch/test_result_model.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/DataFetchController/test_result_controller.dart';
-import 'package:qr_code_scanner/presentation/views/test_resutls/test_results_screen.dart';
-import 'package:qr_code_scanner/presentation/views/test_resutls/test_colors.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 
@@ -548,7 +546,20 @@ Obx(() {
 
         SizedBox(height: 16.h),
 
+        if (controller.errorMessage.value != null)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(controller.errorMessage.value!),
+              TextButton(
+                onPressed: controller.refreshResults,
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+
         if (!controller.isLoading.value &&
+            controller.errorMessage.value == null &&
             monthResults.isEmpty)
           const Text(
             'No test has been taken this month',

@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/presentation/viewmodels/DataFetchController/test_result_controller.dart';
 
 class NotificationServices {
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -20,6 +22,22 @@ class NotificationServices {
       );
 
   int badgeCount = 0;
+
+  bool _isTestResultMessage(RemoteMessage message) {
+    final type = (message.data['type'] ?? message.data['notificationType'] ?? '')
+        .toString()
+        .toLowerCase();
+    return type == 'test' || type == 'test_result' || type == 'result' ||
+        type == 'testresult' || message.data.containsKey('testId') ||
+        message.data.containsKey('classId') && message.data.containsKey('scores');
+  }
+
+  void _refreshTestResultsIfNeeded(RemoteMessage message) {
+    if (!_isTestResultMessage(message)) return;
+    if (Get.isRegistered<TestResultController>()) {
+      Get.find<TestResultController>().refreshResults();
+    }
+  }
 
   Future<void> requestNotificationPermission() async {
     final settings = await messaging.requestPermission(
@@ -70,6 +88,7 @@ class NotificationServices {
       print('Body: ${message.notification?.body}');
 
       showNotification(message);
+      _refreshTestResultsIfNeeded(message);
     });
   }
 
@@ -79,6 +98,7 @@ class NotificationServices {
         print('App opened from terminated notification');
         print('Data: ${message.data}');
         clearBadgeCount();
+        _refreshTestResultsIfNeeded(message);
       }
     });
 
@@ -86,6 +106,7 @@ class NotificationServices {
       print('App opened from background notification');
       print('Data: ${message.data}');
       clearBadgeCount();
+      _refreshTestResultsIfNeeded(message);
     });
   }
 

@@ -61,13 +61,13 @@ class StudentModel {
 
   factory StudentModel.fromMap(Map<String, dynamic> map) {
     return StudentModel(
-      uid: map['uid'] ?? '',
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
-      fatherName: map['fatherName'] ?? '',
-      grade: map['grade'] ?? '',
-      section: map['section'] ?? '',
-      rollNo: map['rollNo'] ?? '',
+      uid: map['uid']?.toString() ?? '',
+      name: map['name']?.toString() ?? '',
+      email: map['email']?.toString() ?? '',
+      fatherName: map['fatherName']?.toString() ?? '',
+      grade: map['grade']?.toString() ?? '',
+      section: map['section']?.toString() ?? '',
+      rollNo: map['rollNo']?.toString() ?? '',
       createdAt: map['createdAt'] is Timestamp
           ? (map['createdAt'] as Timestamp).toDate()
           : null,

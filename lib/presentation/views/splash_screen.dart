@@ -6,6 +6,7 @@ import 'package:qr_code_scanner/components/login_background_elements.dart';
 import 'package:qr_code_scanner/core/constants/app_colors.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/auth_controller.dart';
 import 'package:qr_code_scanner/presentation/views/home/student_dashboard.dart';
+import 'package:qr_code_scanner/presentation/views/login_screen.dart';
 import 'package:qr_code_scanner/presentation/views/public_academy_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
   void _startNavigationTimer() async {
 
   await Future.delayed(
-    const Duration(seconds: 10),
+    const Duration(seconds: 2),
   );
 
   final authController =
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   } else {
 
-    Get.offAll(() => const PublicAcademyScreen());
+    Get.offAll(() =>  LoginScreen());
 
   }
 }

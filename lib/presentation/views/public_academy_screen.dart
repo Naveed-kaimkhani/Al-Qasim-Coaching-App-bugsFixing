@@ -152,7 +152,7 @@ class PublicAcademyScreen extends StatelessWidget {
                     onPressed: () => Get.offAll(() => LoginScreen()),
                     icon: Icon(LucideIcons.logIn, size: 19.sp),
                     label: Text(
-                      'Parent Login',
+                      'Login',
                       style: GoogleFonts.poppins(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,

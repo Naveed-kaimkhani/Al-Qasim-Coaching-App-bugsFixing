@@ -250,7 +250,8 @@ class TestResultController extends GetxController {
           ? Get.find<StudentController>()
           : Get.put(StudentController());
 
-  final isLoading = true.obs;
+  final isLoading = false.obs;
+  final errorMessage = RxnString();
 
   /// Current student results
   final results = <TestResultModel>[].obs;
@@ -267,8 +268,14 @@ class TestResultController extends GetxController {
   }
 
   Future<void> fetchResults() async {
+    await refreshResults();
+  }
+
+  Future<void> refreshResults() async {
+    if (isLoading.value) return;
     try {
       isLoading.value = true;
+      errorMessage.value = null;
 
       if (_studentController.student.value == null) {
         await _studentController.fetchStudent();
@@ -278,23 +285,34 @@ class TestResultController extends GetxController {
 
       if (student == null) {
         // Get.snackbar('Error', 'Student data not found');
-          AppToast.error('Student data not found');
+        AppToast.error('Student data not found');
+        errorMessage.value = 'Student profile could not be loaded.';
         return;
       }
 
+      final normalizedClassId = TestResultRepository.normalizeClassId(student.grade);
+      print('[TEST_FETCH] uid=${student.uid}');
+      print('[TEST_FETCH] rollNo=${student.rollNo.trim()} classId=$normalizedClassId');
+
       final studentData = await _repository.getStudentResults(
-        classId: student.grade.trim(),
+        classId: normalizedClassId,
         rollNo: student.rollNo.trim(),
       );
-
-      final allClassData = await _repository.getClassResults(
-        classId: student.grade.trim(),
-      );
-
       results.assignAll(studentData);
-      classResults.assignAll(allClassData);
+      print('[TEST_FETCH] resultsLoaded=${results.length}');
+
+      try {
+        final allClassData = await _repository.getClassResults(
+          classId: normalizedClassId,
+        );
+        classResults.assignAll(allClassData);
+      } catch (e) {
+        classResults.clear();
+        print('[TEST_FETCH_ERROR] rank query failed: $e');
+      }
     } catch (e) {
-      // Get.snackbar('Error', e.toString());
+      errorMessage.value = 'Unable to load test results. Please try again.';
+      print('[TEST_FETCH_ERROR] $e');
       AppToast.error(e.toString());
     } finally {
       isLoading.value = false;

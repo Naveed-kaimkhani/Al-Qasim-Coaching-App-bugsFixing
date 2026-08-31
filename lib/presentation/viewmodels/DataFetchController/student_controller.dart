@@ -4,7 +4,6 @@ import 'package:qr_code_scanner/data/models/datafetch/student_model.dart';
 // import 'package:qr_code_scanner/data/models/student_model.dart';
 import 'package:qr_code_scanner/data/repositories/DataFetchRepo/student_repositry.dart';
 // import 'package:qr_code_scanner/data/repositories/student_repository.dart';
-import 'package:qr_code_scanner/data/services/local_storage_service.dart';
 
 class StudentController extends GetxController {
   final StudentRepository _studentRepository = Get.put(StudentRepository());
@@ -22,18 +21,7 @@ class StudentController extends GetxController {
     try {
       isLoading.value = true;
 
-      final email = await LocalStorageService.getUserEmail();
-          print("SAVED EMAIL: $email");
-
-
-      if (email == null || email.isEmpty) {
-        // Get.snackbar('Error', 'User email not found');
-        AppToast.error('User email not found');
-        return;
-      }
-
-      final result = await _studentRepository.getStudentByEmail(email);
-          print("STUDENT RESULT: $result");
+      final result = await _studentRepository.getCurrentStudent();
 
 
       if (result == null) {
