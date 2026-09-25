@@ -22,9 +22,9 @@ Future<void> firebaseMessagingBackgroundHandler(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  print('BACKGROUND NOTIFICATION');
-  print('TITLE: ${message.notification?.title}');
-  print('BODY: ${message.notification?.body}');
+  // print('BACKGROUND NOTIFICATION');
+  // print('TITLE: ${message.notification?.title}');
+  // print('BODY: ${message.notification?.body}');
 }
 
 void main() async {

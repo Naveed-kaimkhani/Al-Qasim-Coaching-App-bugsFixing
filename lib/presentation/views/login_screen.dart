@@ -207,6 +207,8 @@ import 'package:qr_code_scanner/components/primary_input_field.dart';
 import 'package:qr_code_scanner/core/constants/app_colors.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/auth_controller.dart';
 import 'package:qr_code_scanner/presentation/views/public_academy_screen.dart';
+import 'package:qr_code_scanner/presentation/views/timetable_screen.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -348,11 +350,42 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 12.h),
+
+                      // View Timetable Button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52.h,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Get.to(() => const TimetableScreen());
+                          },
+                          icon: Icon(
+                            LucideIcons.calendar,
+                            size: 19.sp,
+                          ),
+                          label: Text(
+                            'View Class Timetable',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primaryDark,
+                            backgroundColor: AppColors.primary.withOpacity(0.1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 12.h),
 
                       // Public access text
                       Text(
-                        'No login required',
+                        'No login required for these options',
                         style: TextStyle(
                           fontSize: 11.sp,
                           color: AppColors.textSecondary,
