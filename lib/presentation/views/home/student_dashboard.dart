@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:qr_code_scanner/components/login_background_elements.dart';
 import 'package:qr_code_scanner/core/constants/attendance_Colors.dart';
-import 'package:qr_code_scanner/core/constants/fee_colors.dart';
 import 'package:qr_code_scanner/data/models/quick_action_item.dart';
 import 'package:qr_code_scanner/data/models/stat_item.dart';
 import 'package:qr_code_scanner/presentation/viewmodels/DataFetchController/dashboard_stats_controller.dart';
@@ -14,14 +12,13 @@ import 'package:qr_code_scanner/presentation/viewmodels/DataFetchController/stud
 import 'package:qr_code_scanner/presentation/viewmodels/auth_controller.dart';
 import 'package:qr_code_scanner/presentation/views/attendance/monthly_attendance_screen.dart';
 import 'package:qr_code_scanner/presentation/views/fee/fee_home_screen.dart';
-import 'package:qr_code_scanner/presentation/views/fee/monthly_fee_screen.dart';
 import 'package:qr_code_scanner/presentation/views/home/widget/animated_header_section.dart';
 import 'package:qr_code_scanner/presentation/views/home/widget/animated_stats_section.dart';
 import 'package:qr_code_scanner/presentation/views/home/widget/quick_access_grid.dart';
 import 'package:qr_code_scanner/presentation/views/notifications/notifications_screen.dart';
 import 'package:qr_code_scanner/presentation/views/test_resutls/test_results_screen.dart';
+import 'package:qr_code_scanner/core/utils/app_upgrader.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:upgrader/upgrader.dart';
 
 // Enhanced Student Dashboard
 class StudentDashboard extends StatelessWidget {
@@ -45,10 +42,8 @@ class StudentDashboard extends StatelessWidget {
       greeting.value = 'Good Evening';
     }
 
-    return UpgradeAlert(
+    return AppUpgradeAlert(
       child: Scaffold(
-      
-      
         backgroundColor: AttendanceColors.warmWhite,
         body: Stack(
           children: [
